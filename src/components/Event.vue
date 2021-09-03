@@ -18,6 +18,7 @@
         <router-link :to="{ name: 'EditEvent', params: { id: event._id }}">
           <span class="material-icons edit">edit</span>
         </router-link>
+        <span @click="deleteEvent" class="material-icons delete">delete</span>
       </div>
     </div>
   </div>
@@ -53,8 +54,8 @@ export default {
 <style scoped>
 .events {
   background: white;
-  margin: 20px auto;
-  padding: 5px 10px;
+  margin: 5px auto;
+  padding: 0 10px;
   border-radius: 4px;
   box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
@@ -75,6 +76,10 @@ export default {
 .material-icons.edit:hover {
   font-size: 28px;
   color: goldenrod
+}
+.material-icons.delete:hover {
+  font-size: 28px;
+  color: red
 }
 h4 {
   padding: 0 5px;

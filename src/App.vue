@@ -7,7 +7,7 @@
 import Navigation from '@/components/Navigation'
 export default {
   components: {
-    Navigation
+    Navigation    
   }
 }
 </script>
@@ -20,7 +20,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  max-width: 750px;
+  max-width: 66%;
   margin: 0px auto;
 }
 </style>
