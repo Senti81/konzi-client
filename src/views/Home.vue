@@ -1,57 +1,21 @@
 <template>
   <div class="home">
-    <div class="spinner" v-if="isLoading"></div>
-    <div class="pagination">
-      <button :disabled="skip === 0" @click="back">
-        <span class="material-icons">skip_previous</span>
-      </button>
-      <button :disabled="eventCount < 10" @click="foward">
-        <span class="material-icons">skip_next</span>
-      </button>
-    </div>
-    <div v-for="event in events" :key="event._id">
-      <Event :event="event" @deleteEvent="deleteEvent"/>
-    </div>
+   <EventTable/>
   </div>
 </template>
 
 <script>
-import Event from '@/components/Event'
+import EventTable from '@/components/EventTable'
 import axios from 'axios'
 
 export default {
   name: 'Home',
   components: {
-    Event
+    EventTable
   },
   data() {
     return {
       isLoading: false,
-      skip: 0,
-      uri: 'https://konzi-server.herokuapp.com/events/?limit=10',
-      events: []
-    }
-  },
-  computed: {
-    eventCount() {
-      return this.events.length
-    }
-  },
-  methods: {
-    async foward() {
-      this.skip = this.skip + 10
-      const result = await axios.get(this.uri + '&skip=' + this.skip)
-      this.events = result.data
-      console.log(this.eventCount)
-    },
-    async back() {
-      this.skip = this.skip - 10
-      const result = await axios.get(this.uri + '&skip=' + this.skip)
-      this.events = result.data
-    },
-    deleteEvent(e) {
-      const index = this.events.indexOf(e)
-      this.events.splice(index, 1)
     }
   },
   mounted() {

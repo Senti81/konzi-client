@@ -1,0 +1,113 @@
+<template>
+  <div class="spinner" v-if="isLoading"></div>
+  <div class="pagination">
+    <button :disabled="skip === 0" @click="back">
+      <span class="material-icons">skip_previous</span>
+    </button>
+    <button :disabled="eventCount < 10" @click="foward">
+      <span class="material-icons">skip_next</span>
+    </button>
+  </div>
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Datum</th>
+        <th scope="col">Band</th>
+        <th scope="col">Stadt</th>
+        <th scope="col">Location</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="event in events" :key="event._id">
+        <EventTableRow :event="event"/>
+      </tr>
+    </tbody>
+  </table>
+</template>
+
+<script>
+import EventTableRow from './EventTableRow'
+import axios from 'axios'
+export default {
+  components: {
+    EventTableRow
+  },
+  data() {
+    return {
+      isLoading: false,
+      skip: 0,
+      uri: 'https://konzi-server.herokuapp.com/events/?limit=10',
+      events: []
+    }
+  },
+  computed: {
+    eventCount() {
+      return this.events.length
+    }
+  },
+  methods: {
+    async foward() {
+      this.skip = this.skip + 10
+      const result = await axios.get(this.uri + '&skip=' + this.skip)
+      this.events = result.data
+    },
+    async back() {
+      this.skip = this.skip - 10
+      const result = await axios.get(this.uri + '&skip=' + this.skip)
+      this.events = result.data
+    },
+    deleteEvent(e) {
+      const index = this.events.indexOf(e)
+      this.events.splice(index, 1)
+    }
+  },
+  mounted() {
+    this.isLoading = true
+    axios.get(this.uri)
+      .then((res) => {
+        this.events = res.data
+        this.isLoading = false
+      })
+  }
+
+}
+</script>
+
+<style>
+
+.spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height:60px;
+  width:60px;
+  margin:0px auto;
+  -webkit-animation: rotation .6s infinite linear;
+  -moz-animation: rotation .6s infinite linear;
+  -o-animation: rotation .6s infinite linear;
+  animation: rotation .6s infinite linear;
+  border-left:6px solid rgba(0,174,239,.15);
+  border-right:6px solid rgba(0,174,239,.15);
+  border-bottom:6px solid rgba(0,174,239,.15);
+  border-top:6px solid rgba(0,174,239,.8);
+  border-radius:100%;
+}
+
+@-webkit-keyframes rotation {
+  from {-webkit-transform: rotate(0deg);}
+  to {-webkit-transform: rotate(359deg);}
+}
+@-moz-keyframes rotation {
+  from {-moz-transform: rotate(0deg);}
+  to {-moz-transform: rotate(359deg);}
+}
+@-o-keyframes rotation {
+  from {-o-transform: rotate(0deg);}
+  to {-o-transform: rotate(359deg);}
+}
+@keyframes rotation {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(359deg);}
+}
+</style>
