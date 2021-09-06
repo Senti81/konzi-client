@@ -1,5 +1,10 @@
 <template>
   <div class="spinner" v-if="isLoading"></div>
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item" v-for="(event, index) in events" :key="event._id">
+      <EventTableRow :event="event" :index="index"/>
+    </div>
+  </div>
   <div class="pagination">
     <button :disabled="skip === 0" @click="back">
       <span class="material-icons">skip_previous</span>
@@ -8,22 +13,6 @@
       <span class="material-icons">skip_next</span>
     </button>
   </div>
-  <table class="table table-hover table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Datum</th>
-        <th scope="col">Band</th>
-        <th scope="col">Stadt</th>
-        <th scope="col">Location</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="event in events" :key="event._id">
-        <EventTableRow :event="event"/>
-      </tr>
-    </tbody>
-  </table>
 </template>
 
 <script>
@@ -75,7 +64,10 @@ export default {
 </script>
 
 <style>
-
+.pagination {
+  display: flex;
+  justify-content: space-between;
+}
 .spinner {
   position: absolute;
   left: 50%;

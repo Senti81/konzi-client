@@ -66,28 +66,11 @@ export default {
 }
 .pagination {
   display: flex;
-  margin-left: 10px;
+  margin: 20px 10px;
 }
 p {
   padding: 10px;
   font-weight: bolder;
   cursor: pointer;
 }
-button {
-  padding: 0 10px;
-  margin: 10px 5px;
-  color: #aaa;
-  background: cornflowerblue;
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-  border: 0;
-  border-radius: 5px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-}
-button:disabled {
-  cursor: not-allowed;
-}
-
 </style>
