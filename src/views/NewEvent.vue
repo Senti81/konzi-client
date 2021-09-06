@@ -55,13 +55,13 @@ export default {
 
 <style>
 form {
-  background: white;
+  background: #90a4ae;
   padding: 20px;
   border-radius: 10px;
 }
 label {
   display: block;
-  color: #aaa;
+  color: #263238;
   text-transform: uppercase;
   font-size: 14px;
   font-weight: bold;
@@ -69,6 +69,7 @@ label {
   margin: 20px 0 5px 0;
 }
 input {
+  background: #90a4ae;
   padding: 5px;
   border: 0;
   border-bottom: 1px solid black;
@@ -77,7 +78,7 @@ input {
 }
 select {
   padding: 5px;
-  background: white;
+  background: #90a4ae;
   border: 0;
   border-bottom: 1px solid black;
   width: 100%;
@@ -89,7 +90,7 @@ form button {
   display: block;
   margin: 20px auto 0;
   background: #00ce89;
-  color: white;
+  color: black;
   cursor: pointer;
   padding: 10px;
   border: 0;
@@ -108,7 +109,7 @@ form button:hover {
 }
 p {
   padding-top: 20px;
-  color: #bbb;
+  color: black;
   text-transform: uppercase;
   font-size: 10px;
   letter-spacing: 1px;

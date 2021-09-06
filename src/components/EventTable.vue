@@ -1,17 +1,17 @@
 <template>
   <div class="spinner" v-if="isLoading"></div>
   <div v-else>
-    <div class="accordion" id="accordionExample">
+    <div class="accordion accordion-flush" id="accordionExample">
       <div class="accordion-item" v-for="(event, index) in events" :key="event._id">
         <EventTableRow :event="event" :index="index"/>
       </div>
     </div>
     <div class="pagination">
-      <button :disabled="skip === 0" @click="back">
+      <button class="bg-main" :disabled="skip === 0" @click="back">
         <span  class="material-icons">skip_previous</span>
       </button>
       <h6>{{skip + 1}}-{{ calculateEndOfItems }} von {{ allEventsCount }}</h6>
-      <button :disabled="eventCount < 10" @click="foward">
+      <button class="bg-main" :disabled="eventCount < 10" @click="foward">
         <span class="material-icons">skip_next</span>
       </button>
     </div>
@@ -76,6 +76,12 @@ export default {
 </script>
 
 <style>
+h6 {
+  color: #999;
+}
+.accordion {
+  background: red;
+}
 .pagination {
   display: flex;
   justify-content: space-between;

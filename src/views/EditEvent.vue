@@ -15,7 +15,7 @@
       <option>Konzert</option>
       <option>Festival</option>
     </select>
-    <button class="update-event">Aktualisieren</button>
+    <button class="update-event">Speichern</button>
   </form>
   <div class="alert alert-danger" role="alert">
     <button class="btn btn-outline-danger" @click="deleteEvent">Event löschen</button>
@@ -78,7 +78,7 @@ export default {
   display: flex;
 }
 .update-event {
-  color: white;
+  color: black;
   background-color: gold;
 }
 .update-event:hover {

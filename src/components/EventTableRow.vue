@@ -41,7 +41,11 @@ export default {
 </script>
 
 <style scoped>
+.accordion-button {
+  background-color: #90a4ae;
+}
 .accordion-body{
+  background-color: #90a4ae;
   display: flex;
   justify-content: space-between;
 }

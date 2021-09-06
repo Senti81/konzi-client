@@ -12,8 +12,11 @@ export default {
 }
 </script>
 <style>
+.bg-main {
+  background: #90a4ae;
+}
 body {
-  background: #ddd;
+  background: #2c3e50;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
