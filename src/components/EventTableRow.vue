@@ -1,7 +1,7 @@
 <template>
   <h2 class="accordion-header" :id="createHeadingForAccordion">
     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="createIndexForAccordion" aria-expanded="false" :aria-controls="createIdForAccordion">
-        {{ formatDate }}: {{ event. band }}
+        {{ formatDate }}: {{ event.band }}
     </button>
   </h2>
   <div :id="createIdForAccordion" class="accordion-collapse collapse" :aria-labelledby="createHeadingForAccordion" data-bs-parent="#accordionExample">
@@ -10,6 +10,9 @@
         <span class="badge rounded-pill" 
           :class="{ 'bg-success': event.typ === 'Konzert', 'bg-warning': event.typ === 'Festival'}">{{ event.typ }}</span>
         <p>{{ event.stadt }} / {{ event.location }}</p>
+        <small>
+          <a class="setlist-link" :href="getSetlistLink(event.band, event.stadt, event.location, formatDate)" target="blank">Setlist bei setlist.fm suchen</a>
+        </small>
       </div>
       <div class="action-buttons">
         <router-link :to="{ name: 'EditEvent', params: { id: event._id }}">
@@ -23,6 +26,11 @@
 <script>
 export default {
   props: ['event', 'index'],
+  methods: {
+    getSetlistLink(band, stadt, location, datum) {
+      return 'https://www.setlist.fm/search?query='+band+'+'+stadt+'+'+location+'&year='+datum.substring(0, 4)
+    }
+  },
   computed: {
     createIndexForAccordion() {
       return '#collapse' + this.index
@@ -41,6 +49,13 @@ export default {
 </script>
 
 <style scoped>
+a.setlist-link {
+  font-size: 12px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #263238;
+  padding-left: 5px;
+}
 .accordion-button {
   background-color: #90a4ae;
 }
