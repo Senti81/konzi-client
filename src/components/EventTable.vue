@@ -1,17 +1,20 @@
 <template>
   <div class="spinner" v-if="isLoading"></div>
-  <div class="accordion" id="accordionExample">
-    <div class="accordion-item" v-for="(event, index) in events" :key="event._id">
-      <EventTableRow :event="event" :index="index"/>
+  <div v-else>
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item" v-for="(event, index) in events" :key="event._id">
+        <EventTableRow :event="event" :index="index"/>
+      </div>
     </div>
-  </div>
-  <div class="pagination">
-    <button :disabled="skip === 0" @click="back">
-      <span class="material-icons">skip_previous</span>
-    </button>
-    <button :disabled="eventCount < 10" @click="foward">
-      <span class="material-icons">skip_next</span>
-    </button>
+    <div class="pagination">
+      <button :disabled="skip === 0" @click="back">
+        <span  class="material-icons">skip_previous</span>
+      </button>
+      <h6>{{skip + 1}}-{{ calculateEndOfItems }} von {{ allEventsCount }}</h6>
+      <button :disabled="eventCount < 10" @click="foward">
+        <span class="material-icons">skip_next</span>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -27,12 +30,18 @@ export default {
       isLoading: false,
       skip: 0,
       uri: 'https://konzi-server.herokuapp.com/events/?limit=10',
-      events: []
+      events: [],
+      allEventsCount: 0
     }
   },
   computed: {
     eventCount() {
       return this.events.length
+    },
+    calculateEndOfItems() {
+      if (this.skip + 10 > this.allEventsCount)
+        return this.allEventsCount
+      return this.skip + 10
     }
   },
   methods: {
@@ -57,7 +66,10 @@ export default {
       .then((res) => {
         this.events = res.data
         this.isLoading = false
-      })
+      }
+    )
+    axios.get('https://konzi-server.herokuapp.com/events/')
+      .then(res => this.allEventsCount = res.data.length)
   }
 
 }
@@ -67,6 +79,7 @@ export default {
 .pagination {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .spinner {
   position: absolute;

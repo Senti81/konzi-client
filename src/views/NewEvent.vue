@@ -8,6 +8,12 @@
     <input type="text" v-model="stadt">
     <label>Location</label>
     <input type="text" v-model="location">
+    <label><small class="required">*</small>Typ</label>
+    <select v-model="typ">
+      <option disabled value="">Bitte wählen</option>
+      <option>Konzert</option>
+      <option>Festival</option>
+    </select>
     <div>
       <p>*Pflichtfelder</p>
       <button>Eintragen</button>
@@ -23,14 +29,16 @@ export default {
       datum: '',
       band: '',
       stadt: '',
-      location: ''
+      location: '',
+      typ: ''
     }
   },
   methods: {
     async submit() {
       const payload = {
         datum: this.datum,
-        band: this.band
+        band: this.band,
+        typ: this.typ
       }
       if (this.stadt)
         payload.stadt = this.stadt
@@ -45,7 +53,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 form {
   background: white;
   padding: 20px;
@@ -66,6 +74,13 @@ input {
   border-bottom: 1px solid black;
   width: 100%;
   box-sizing: border-box
+}
+select {
+  padding: 5px;
+  background: white;
+  border: 0;
+  border-bottom: 1px solid black;
+  width: 100%;
 }
 input:hover {
   border-bottom: 2px solid black;

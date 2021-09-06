@@ -7,7 +7,8 @@
   <div :id="createIdForAccordion" class="accordion-collapse collapse" :aria-labelledby="createHeadingForAccordion" data-bs-parent="#accordionExample">
     <div class="accordion-body">
       <div class="details">
-        <p>{{ event.typ }}</p>
+        <span class="badge rounded-pill" 
+          :class="{ 'bg-success': event.typ === 'Konzert', 'bg-warning': event.typ === 'Festival'}">{{ event.typ }}</span>
         <p>{{ event.stadt }} / {{ event.location }}</p>
       </div>
       <div class="action-buttons">

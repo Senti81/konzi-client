@@ -9,8 +9,17 @@
     <input type="text" v-model="stadt">
     <label>Location</label>
     <input type="text" v-model="location">
-    <button>Aktualisieren</button>
+    <label>Typ</label>
+    <select v-model="typ">
+      <option disabled value="">Bitte wählen</option>
+      <option>Konzert</option>
+      <option>Festival</option>
+    </select>
+    <button class="update-event">Aktualisieren</button>
   </form>
+  <div class="alert alert-danger" role="alert">
+    <button class="btn btn-outline-danger" @click="deleteEvent">Event löschen</button>
+  </div>
 </template>
 
 <script>
@@ -24,7 +33,8 @@ export default {
       datum: '',
       band: '',
       stadt: '',
-      location: ''
+      location: '',
+      typ: ''
     }
   },
   methods: {
@@ -33,9 +43,14 @@ export default {
         datum: this.datum,
         band: this.band,
         stadt: this.stadt,
-        location: this.location
+        location: this.location,
+        typ: this.typ
       }     
       await axios.put(this.uri, payload)
+      this.$router.push('/')
+    },
+    async deleteEvent() {
+      await axios.delete(this.uri)
       this.$router.push('/')
     }
   },
@@ -47,6 +62,7 @@ export default {
       this.band = result.data.band
       this.stadt = result.data.stadt
       this.location = result.data.location
+      this.typ = result.data.typ
       this.isLoading = false
     })
   }
@@ -54,11 +70,18 @@ export default {
 </script>
 
 <style scoped>
-button {
+.alert.alert-danger {
+  margin-top: 20px;
+  border-radius: 10px;
+}
+.danger-zone {
+  display: flex;
+}
+.update-event {
   color: white;
   background-color: gold;
 }
-button:hover {
+.update-event:hover {
   background-color: rgb(201, 125, 26);
 }
 </style>
