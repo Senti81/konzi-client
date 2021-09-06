@@ -8,11 +8,10 @@
     <div class="accordion-body">
       <div class="details">
         <span class="badge rounded-pill" 
-          :class="{ 'bg-success': event.typ === 'Konzert', 'bg-warning': event.typ === 'Festival'}">{{ event.typ }}</span>
+          :class="{ 'bg-success': event.typ === 'Konzert', 'bg-warning': event.typ === 'Festival'}">{{ event.typ }}
+        </span>
         <p>{{ event.stadt }} / {{ event.location }}</p>
-        <small>
-          <a class="setlist-link" :href="getSetlistLink(event.band, event.stadt, event.location, formatDate)" target="blank">Setlist bei setlist.fm suchen</a>
-        </small>
+        <a class="btn btn-outline-primary" :href="getSetlistLink(event.band, event.stadt, event.location, formatDate)" target="blank">Setlist bei setlist.fm suchen</a>
       </div>
       <div class="action-buttons">
         <router-link :to="{ name: 'EditEvent', params: { id: event._id }}">
