@@ -1,45 +1,21 @@
 <template>
-  <h2 class="accordion-header" :id="createHeadingForAccordion">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" :data-bs-target="createIndexForAccordion" aria-expanded="false" :aria-controls="createIdForAccordion">
-        {{ formatDate }}: {{ event.band }}
-    </button>
-  </h2>
-  <div :id="createIdForAccordion" class="accordion-collapse collapse" :aria-labelledby="createHeadingForAccordion" data-bs-parent="#accordionExample">
-    <div class="accordion-body">
-      <div class="details">
-        <span class="badge rounded-pill" 
-          :class="{ 'bg-success': event.typ === 'Konzert', 'bg-warning': event.typ === 'Festival'}">{{ event.typ }}
-        </span>
-        <p>{{ event.stadt }} / {{ event.location }}</p>
-        <a class="btn btn-outline-primary" :href="getSetlistLink(event.band, event.stadt, event.location, formatDate)" target="blank">Setlist bei setlist.fm suchen</a>
+  <router-link :to="{ name: 'EditEvent', params: { id: event._id }}" class="list-group-item list-group-item-action d-flex gap-3 py-2" aria-current="true">
+    <img v-if="event.typ === 'Konzert'" src="img/concert.png" alt="concert" width="48" height="48" class="rounded-circle flex-shrink-0">
+    <img v-if="event.typ === 'Festival'" src="img/festival.png" alt="festival" width="48" height="48" class="rounded-circle flex-shrink-0">
+    <div class="d-flex w-100 justify-content-between">
+      <div>
+        <h5 class="mb-1">{{ event.band }}</h5>
+        <small class="mb-0">{{ event.stadt }} / {{ event.location }}</small>
       </div>
-      <div class="action-buttons">
-        <router-link :to="{ name: 'EditEvent', params: { id: event._id }}">
-          <span class="material-icons edit">edit</span>
-        </router-link>
-      </div>
+      <small class="text-muted">{{ formatDate }}</small>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
 export default {
-  props: ['event', 'index'],
-  methods: {
-    getSetlistLink(band, stadt, location, datum) {
-      return 'https://www.setlist.fm/search?query='+band+'+'+stadt+'+'+location+'&year='+datum.substring(0, 4)
-    }
-  },
+  props: ['event'],
   computed: {
-    createIndexForAccordion() {
-      return '#collapse' + this.index
-    },
-    createHeadingForAccordion() {
-      return 'heading' + this.index
-    },
-    createIdForAccordion() {
-      return 'collapse' + this.index
-    },
     formatDate() {
       return this.event.datum.substring(0,10)
     }
@@ -48,20 +24,22 @@ export default {
 </script>
 
 <style scoped>
+h5 {
+  font-size: 16px;
+  text-transform: none;
+}
+img {
+  margin: auto;
+}
+.list-group-item {
+  background: #90a4ae;
+}
 a.setlist-link {
   font-size: 12px;
   text-decoration: none;
   text-transform: uppercase;
   color: #263238;
   padding-left: 5px;
-}
-.accordion-button {
-  background-color: #90a4ae;
-}
-.accordion-body{
-  background-color: #90a4ae;
-  display: flex;
-  justify-content: space-between;
 }
 p {
   font-size: 12px;

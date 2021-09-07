@@ -68,9 +68,4 @@ export default {
   display: flex;
   margin: 20px 10px;
 }
-p {
-  padding: 10px;
-  font-weight: bolder;
-  cursor: pointer;
-}
 </style>

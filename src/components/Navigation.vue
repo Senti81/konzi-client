@@ -2,7 +2,6 @@
   <nav class="main-nav">
     <router-link :to="{ name: 'Home' }">Events</router-link>
     <router-link :to="{ name: 'NewEvent' }">Neues Event</router-link>
-    <router-link :to="{ name: 'News' }">News</router-link>
   </nav>
 </template>
 

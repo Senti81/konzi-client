@@ -1,9 +1,9 @@
 <template>
   <div class="spinner" v-if="isLoading"></div>
   <div v-else>
-    <div class="accordion accordion-flush" id="accordionExample">
-      <div class="accordion-item" v-for="(event, index) in events" :key="event._id">
-        <EventTableRow :event="event" :index="index"/>
+    <div class="list-group">
+      <div v-for="event in events" :key="event._id">
+        <EventTableRow :event="event"/>
       </div>
     </div>
     <div class="pagination">
@@ -78,9 +78,6 @@ export default {
 <style>
 h6 {
   color: #999;
-}
-.accordion {
-  background: red;
 }
 .pagination {
   display: flex;

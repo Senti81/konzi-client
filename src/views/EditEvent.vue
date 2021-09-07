@@ -17,8 +17,13 @@
     </select>
     <button class="update-event">Speichern</button>
   </form>
-  <div class="alert alert-danger" role="alert">
-    <button class="btn btn-outline-danger" @click="deleteEvent">Event löschen</button>
+  <div class="actions">
+    <div class="alert alert-primary" role="alert">
+      <a class="btn btn-outline-primary" :href="getSetlistLink(this.band, this.stadt, this.location, this.datum)" target="blank">Setlist bei setlist.fm suchen</a>
+    </div>
+    <div class="alert alert-danger" role="alert">
+      <button class="btn btn-outline-danger" @click="deleteEvent">Event löschen</button>
+    </div>
   </div>
 </template>
 
@@ -38,6 +43,9 @@ export default {
     }
   },
   methods: {
+    getSetlistLink(band, stadt, location, datum) {
+      return 'https://www.setlist.fm/search?query='+band+'+'+stadt+'+'+location+'&year='+datum.substring(0, 4)
+    },
     async submit() {
       const payload = {
         datum: this.datum,
@@ -70,9 +78,10 @@ export default {
 </script>
 
 <style scoped>
-.alert.alert-danger {
+.actions {
   margin-top: 20px;
-  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 .danger-zone {
   display: flex;
