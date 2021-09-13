@@ -1,5 +1,5 @@
 <template>
-  <Navigation/>
+  <Navigation v-if="this.$store.getters.isAuthenticated"/>
   <router-view/>
 </template>
 

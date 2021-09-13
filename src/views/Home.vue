@@ -6,7 +6,6 @@
 
 <script>
 import EventTable from '@/components/EventTable'
-import axios from 'axios'
 
 export default {
   name: 'Home',
@@ -17,14 +16,6 @@ export default {
     return {
       isLoading: false,
     }
-  },
-  mounted() {
-    this.isLoading = true
-    axios.get(this.uri)
-      .then((res) => {
-        this.events = res.data
-        this.isLoading = false
-      })
   }
 }
 </script>

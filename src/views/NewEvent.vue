@@ -30,7 +30,10 @@ export default {
       band: '',
       stadt: '',
       location: '',
-      typ: ''
+      typ: '',
+      authHeader: { 
+        headers: { 'Authorization': 'Bearer ' + this.$store.getters.getToken }
+      }
     }
   },
   methods: {
@@ -45,7 +48,7 @@ export default {
       if (this.location)
         payload.location = this.location
 
-      await axios.post('https://konzi-server.herokuapp.com/events/', payload)
+      await axios.post(process.env.VUE_APP_BASEURL + '/events/', payload, this.authHeader)
       this.$router.push('/')
     }
   }

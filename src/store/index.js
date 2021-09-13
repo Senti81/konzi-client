@@ -2,13 +2,14 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    token: null
+    token: null,
   },
   getters: {
-    token: state => state.token,
-    isAuthenticated: state => !!state.token
+    getToken: state => state.token,
+    isAuthenticated: state => !!state.token,
   },
   mutations: {
+    login: (state, token) => state.token = token
   },
   actions: {
   }

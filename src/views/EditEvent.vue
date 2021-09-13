@@ -33,13 +33,16 @@ export default {
   props: ['id'],
   data() {
     return {
-      uri: 'https://konzi-server.herokuapp.com/events/' + this.id,
+      uri: process.env.VUE_APP_BASEURL + '/events/' + this.id,
       isLoading: false,
       datum: '',
       band: '',
       stadt: '',
       location: '',
-      typ: ''
+      typ: '',
+      authHeader: { 
+        headers: { 'Authorization': 'Bearer ' + this.$store.getters.getToken }
+      }
     }
   },
   methods: {
@@ -54,17 +57,17 @@ export default {
         location: this.location,
         typ: this.typ
       }     
-      await axios.put(this.uri, payload)
+      await axios.put(this.uri, payload, this.authHeader)
       this.$router.push('/')
     },
     async deleteEvent() {
-      await axios.delete(this.uri)
+      await axios.delete(this.uri, this.authHeader)
       this.$router.push('/')
     }
   },
   mounted() {
     this.isLoading = true
-    axios.get(this.uri)
+    axios.get(this.uri, this.authHeader)
     .then(result => {
       this.datum = result.data.datum.substring(0,10)
       this.band = result.data.band

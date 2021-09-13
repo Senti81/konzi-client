@@ -31,7 +31,10 @@ export default {
       skip: 0,
       uri: process.env.VUE_APP_BASEURL + '/events/?limit=10',
       events: [],
-      allEventsCount: 0
+      allEventsCount: 0,
+      header : {      
+        headers: { 'Authorization': 'Bearer ' + this.$store.getters.getToken }
+      }      
     }
   },
   computed: {
@@ -47,12 +50,12 @@ export default {
   methods: {
     async foward() {
       this.skip = this.skip + 10
-      const result = await axios.get(this.uri + '&skip=' + this.skip)
+      const result = await axios.get(this.uri + '&skip=' + this.skip, this.header)
       this.events = result.data
     },
     async back() {
       this.skip = this.skip - 10
-      const result = await axios.get(this.uri + '&skip=' + this.skip)
+      const result = await axios.get(this.uri + '&skip=' + this.skip, this.header)
       this.events = result.data
     },
     deleteEvent(e) {
@@ -61,15 +64,14 @@ export default {
     }
   },
   mounted() {
-    console.log(process.env.VUE_APP_BASEURL)
     this.isLoading = true
-    axios.get(this.uri)
+    axios.get(this.uri, this.header)
       .then((res) => {
         this.events = res.data
         this.isLoading = false
       }
     )
-    axios.get(process.env.VUE_APP_BASEURL + '/events?count=1')
+    axios.get(process.env.VUE_APP_BASEURL + '/events?count=1', this.header)
       .then(res => this.allEventsCount = res.data.count)
   }
 
