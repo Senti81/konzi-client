@@ -29,7 +29,7 @@ export default {
     return {
       isLoading: false,
       skip: 0,
-      uri: 'https://konzi-server.herokuapp.com/events/?limit=10',
+      uri: process.env.VUE_APP_BASEURL + '/events/?limit=10',
       events: [],
       allEventsCount: 0
     }
@@ -61,6 +61,7 @@ export default {
     }
   },
   mounted() {
+    console.log(process.env.VUE_APP_BASEURL)
     this.isLoading = true
     axios.get(this.uri)
       .then((res) => {
@@ -68,8 +69,8 @@ export default {
         this.isLoading = false
       }
     )
-    axios.get('https://konzi-server.herokuapp.com/events/')
-      .then(res => this.allEventsCount = res.data.length)
+    axios.get(process.env.VUE_APP_BASEURL + '/events?count=1')
+      .then(res => this.allEventsCount = res.data.count)
   }
 
 }
