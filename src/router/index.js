@@ -26,6 +26,11 @@ const routes = [
     name: 'EditEvent',
     component: EditEvent,
     props: true
+  },
+  { 
+    path: '/:patchMatch(.*)*',
+    name: 'Home',
+    component: Home,
   }
 ]
 
