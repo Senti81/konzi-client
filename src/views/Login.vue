@@ -1,12 +1,15 @@
 <template>
-  <div class="container">  
+  <div class="container">
     <form class="login-form" @submit.prevent="login">
       <label>Benutzername</label>
       <input type="text" v-model="name" @focus="error = false">
       <label>Passwort</label>
       <input type="password" v-model="password">
       <p class="error" v-if="error">Benutzername / Passwort falsch</p>
-      <button>Anmelden</button>
+      <button :disabled="this.$store.getters.isLoading">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="this.$store.getters.isLoading"></span>
+        Anmelden
+        </button>
     </form>
   </div>
 </template>
@@ -22,6 +25,7 @@ export default {
   },
   methods: {
     async login() {
+      this.$store.commit('toggleLoading')
       this.error = false
       const payload = { name: this.name, password: this.password }
       const status = await this.$store.dispatch('verifyLogin', payload)
@@ -32,6 +36,7 @@ export default {
         this.name = '',
         this.password = ''
       }
+      this.$store.commit('toggleLoading')
     }
   }
 }

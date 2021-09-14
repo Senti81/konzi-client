@@ -1,5 +1,5 @@
 <template>
-  <div class="spinner" v-if="isLoading"></div>
+  <div class="spinner" v-if="this.$store.getters.isLoading"></div>
   <div v-else>
     <div class="list-group">
       <div v-for="event in events" :key="event._id">
@@ -27,7 +27,6 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
       skip: 0,
       uri: process.env.VUE_APP_BASEURL + '/events/?limit=10',
       events: [],
@@ -49,14 +48,18 @@ export default {
   },
   methods: {
     async foward() {
+      this.$store.commit('toggleLoading')
       this.skip = this.skip + 10
       const result = await axios.get(this.uri + '&skip=' + this.skip, this.header)
       this.events = result.data
+      this.$store.commit('toggleLoading')
     },
     async back() {
+      this.$store.commit('toggleLoading')
       this.skip = this.skip - 10
       const result = await axios.get(this.uri + '&skip=' + this.skip, this.header)
       this.events = result.data
+      this.$store.commit('toggleLoading')
     },
     deleteEvent(e) {
       const index = this.events.indexOf(e)
@@ -64,11 +67,11 @@ export default {
     }
   },
   mounted() {
-    this.isLoading = true
+    this.$store.commit('toggleLoading')
     axios.get(this.uri, this.header)
       .then((res) => {
         this.events = res.data
-        this.isLoading = false
+        this.$store.commit('toggleLoading')
       }
     )
     axios.get(process.env.VUE_APP_BASEURL + '/events?count=1', this.header)
