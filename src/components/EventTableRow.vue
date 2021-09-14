@@ -4,18 +4,15 @@
     <img v-if="event.typ === 'Festival'" src="img/festival.png" alt="festival" width="48" height="48" class="rounded-circle flex-shrink-0">
     <div class="d-flex w-100 justify-content-between">
       <div>
-        <h5 class="mb-1 placeholder-glow">
-          <span class="placeholder col-12" v-if="this.$store.getters.isLoading"></span>
-          <span v-else>{{ event.band }}</span>
+        <h5 class="mb-1">
+          <span>{{ isLoading ? 'Lade Daten...' : event.band }}</span>
         </h5>
-        <small class="mb-1 placeholder-glow">
-          <span class="placeholder col-8" v-if="this.$store.getters.isLoading"></span>
-          <span v-else>{{ event.stadt }} / {{ event.location }}</span>
+        <small class="mb-1">
+          <span v-if="!isLoading">{{ event.stadt }} / {{ event.location }}</span>
         </small>
       </div>
-      <small class="text-muted placeholder-glow">
-        <span class="placeholder col-4" v-if="this.$store.getters.isLoading"></span>
-        <span v-else>{{ formatDate }}</span>
+      <small class="text-muted">
+        <span v-if="!isLoading">{{ formatDate }}</span>
       </small>
     </div>
   </router-link>
@@ -27,6 +24,9 @@ export default {
   computed: {
     formatDate() {
       return this.event.datum.substring(0,10)
+    },
+    isLoading() {
+      return this.$store.getters.isLoading
     }
   }
 }
