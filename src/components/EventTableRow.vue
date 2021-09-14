@@ -1,24 +1,24 @@
 <template>
-  <div v-if="this.$store.getters.isLoading">
-    <p class="list-group-item card-text placeholder-glow">
-      <span class="placeholder col-8"></span>
-      <span class="placeholder col-7"></span>
-      <span class="placeholder col-6"></span>
-    </p>
-  </div>
-  <div v-else>
-    <router-link :to="{ name: 'EditEvent', params: { id: event._id }}" class="list-group-item list-group-item-action d-flex gap-3 py-2" aria-current="true">
-      <img v-if="event.typ === 'Konzert'" src="img/concert.png" alt="concert" width="48" height="48" class="rounded-circle flex-shrink-0">
-      <img v-if="event.typ === 'Festival'" src="img/festival.png" alt="festival" width="48" height="48" class="rounded-circle flex-shrink-0">
-      <div class="d-flex w-100 justify-content-between">
-        <div>
-          <h5 class="mb-1">{{ event.band }}</h5>
-          <small class="mb-0">{{ event.stadt }} / {{ event.location }}</small>
-        </div>
-        <small class="text-muted">{{ formatDate }}</small>
+  <router-link :to="{ name: 'EditEvent', params: { id: event._id }}" class="list-group-item list-group-item-action d-flex gap-3 py-2" aria-current="true">
+    <img v-if="event.typ === 'Konzert'" src="img/concert.png" alt="concert" width="48" height="48" class="rounded-circle flex-shrink-0">
+    <img v-if="event.typ === 'Festival'" src="img/festival.png" alt="festival" width="48" height="48" class="rounded-circle flex-shrink-0">
+    <div class="d-flex w-100 justify-content-between">
+      <div>
+        <h5 class="mb-1 placeholder-glow">
+          <span class="placeholder col-12" v-if="this.$store.getters.isLoading"></span>
+          <span v-else>{{ event.band }}</span>
+        </h5>
+        <small class="mb-1 placeholder-glow">
+          <span class="placeholder col-8" v-if="this.$store.getters.isLoading"></span>
+          <span v-else>{{ event.stadt }} / {{ event.location }}</span>
+        </small>
       </div>
-    </router-link>
-  </div>
+      <small class="text-muted placeholder-glow">
+        <span class="placeholder col-4" v-if="this.$store.getters.isLoading"></span>
+        <span v-else>{{ formatDate }}</span>
+      </small>
+    </div>
+  </router-link>
 </template>
 
 <script>
