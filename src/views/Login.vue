@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="d-flex" style="height: 100vh">
     <form class="login-form" @submit.prevent="login">
       <label>Benutzername</label>
       <input type="text" v-model="name" @focus="error = false">
@@ -43,9 +43,6 @@ export default {
 </script>
 
 <style>
-.container {
-  margin-top: 100px
-}
 .login-form {
   display: block;
   width: 80%;
