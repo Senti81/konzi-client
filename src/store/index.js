@@ -13,6 +13,7 @@ export default createStore({
   },
   mutations: {
     login: (state, token) => state.token = token,
+    logout: state => state.token = null,
     toggleLoading: state => state.loading = !state.loading
   },
   actions: {
@@ -25,6 +26,11 @@ export default createStore({
       } catch (e) {
         localStorage.removeItem('user-token');
       }
+    },
+    logout: ({ commit }) => {
+      commit('logout')
+      localStorage.removeItem('user-token')
+      this.$router.replace('/login')
     }
   }
 })

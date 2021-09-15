@@ -75,8 +75,11 @@ export default {
       .then((res) => {
         this.events = res.data
         this.$store.commit('toggleLoading')
-      }
-    )
+      })
+      .catch((e) => {
+        this.$store.dispatch('logout')
+        this.$router.push('/')
+      })
     axios.get(process.env.VUE_APP_BASEURL + '/events?count=1', this.header)
       .then(res => this.allEventsCount = res.data.count)
   }
