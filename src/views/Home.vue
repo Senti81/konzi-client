@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-   <EventTable/>
+    <EventTable/>
   </div>
 </template>
 
@@ -11,12 +11,7 @@ export default {
   name: 'Home',
   components: {
     EventTable
-  },
-  data() {
-    return {
-      isLoading: false,
-    }
-  }
+  } 
 }
 </script>
 

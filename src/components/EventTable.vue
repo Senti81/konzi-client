@@ -1,26 +1,32 @@
 <template>
-  <div class="list-group">
-    <div v-for="event in events" :key="event._id">
-      <EventTableRow :event="event"/>
+  <Loading v-if="this.$store.getters.isLoading"/>
+  <div v-else>
+    <div class="list-group">
+      <div v-for="event in events" :key="event._id">
+        <EventTableRow :event="event"/>
+      </div>
     </div>
-  </div>
-  <div class="pagination">
-    <button class="bg-main" :disabled="skip === 0" @click="back">
-      <span  class="material-icons">skip_previous</span>
-    </button>
-    <h6>{{skip + 1}}-{{ calculateEndOfItems }} von {{ allEventsCount }}</h6>
-    <button class="bg-main" :disabled="eventCount < 10" @click="foward">
-      <span class="material-icons">skip_next</span>
-    </button>
+    <div class="pagination">
+      <button class="bg-main" :disabled="skip === 0" @click="back">
+        <span  class="material-icons">skip_previous</span>
+      </button>
+      <h6>{{skip + 1}}-{{ calculateEndOfItems }} von {{ allEventsCount }}</h6>
+      <button class="bg-main" :disabled="eventCount < 10" @click="foward">
+        <span class="material-icons">skip_next</span>
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
 import EventTableRow from './EventTableRow'
+import Loading from '@/components/Loading'
 import axios from 'axios'
+
 export default {
   components: {
-    EventTableRow
+    EventTableRow,
+    Loading
   },
   data() {
     return {
