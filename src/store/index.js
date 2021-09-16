@@ -9,7 +9,10 @@ export default createStore({
   getters: {
     getToken: state => state.token,
     isAuthenticated: state => !!state.token,
-    isLoading: state => state.loading
+    isLoading: state => state.loading,
+    getHeader(state) {
+      return { headers: { 'Authorization': 'Bearer ' + state.token }}
+    }
   },
   mutations: {
     login: (state, token) => state.token = token,

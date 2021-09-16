@@ -1,18 +1,14 @@
 <template>
-  <router-link :to="{ name: 'EditEvent', params: { id: event._id }}" class="list-group-item list-group-item-action d-flex gap-3 py-2" aria-current="true">
-    <img v-if="event.typ === 'Konzert'" src="img/concert.png" alt="concert" width="48" height="48" class="rounded-circle flex-shrink-0">
-    <img v-if="event.typ === 'Festival'" src="img/festival.png" alt="festival" width="48" height="48" class="rounded-circle flex-shrink-0">
+  <router-link :to="{ name: 'EditEvent', params: { id: event._id }}" class="list-group-item d-flex gap-3" aria-current="true">
+    <img v-if="event.typ === 'Konzert'" src="img/concert.png" alt="concert" width="36" height="36" class="flex-shrink-0">
+    <img v-if="event.typ === 'Festival'" src="img/festival.png" alt="festival" width="36" height="36" class="flex-shrink-0">
     <div class="d-flex w-100 justify-content-between">
       <div>
-        <h5 class="mb-1">
-          <span>{{ isLoading ? 'Lade Daten...' : event.band }}</span>
-        </h5>
-        <small class="mb-1">
-          <span v-if="!isLoading">{{ event.stadt }} / {{ event.location }}</span>
-        </small>
+        <h6 class="mb-1 text-dark">{{ event.band }}</h6>
+        <p class="mb-1 text-dark">{{ event.stadt }} / {{ event.location }}</p>
       </div>
       <small class="text-muted">
-        <span v-if="!isLoading">{{ formatDate }}</span>
+        <span>{{ formatDate }}</span>
       </small>
     </div>
   </router-link>
@@ -24,19 +20,16 @@ export default {
   computed: {
     formatDate() {
       return this.event.datum.substring(0,10)
-    },
-    isLoading() {
-      return this.$store.getters.isLoading
     }
   }
 }
 </script>
 
 <style scoped>
-h5 {
-  font-size: 16px;
-  text-transform: none;
+.list-group-item{
+  padding: 5px;
 }
+
 img {
   margin: auto;
 }
@@ -52,16 +45,6 @@ a.setlist-link {
 }
 p {
   font-size: 12px;
-  color:black;
   padding: 0 5px;
-}
-.material-icons {
-  padding: 0 10px;
-  font-size: 20px;
-  color: grey;
-  cursor: pointer;
-}
-.material-icons.edit:hover {
-  color: goldenrod
 }
 </style>
