@@ -1,17 +1,50 @@
 <template>
-  <div class="d-flex" style="height: 100vh">
-    <form class="login-form" @submit.prevent="login">
-      <label>Benutzername</label>
-      <input type="text" v-model="name" @focus="error = false">
-      <label>Passwort</label>
-      <input type="password" v-model="password">
-      <p class="error" v-if="error">Benutzername / Passwort falsch</p>
-      <button :disabled="this.$store.getters.isLoading">
-        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="this.$store.getters.isLoading"></span>
-        Anmelden
-        </button>
-    </form>
-  </div>
+	<v-card
+    tile
+		class="pt-16 pa-6 black"
+		height="100vh"
+    dark
+		>
+		<v-overlay v-show="this.$store.getters.isLoading">Loading...</v-overlay>
+		<v-list-item three-line>
+			<v-list-item-content>
+				<v-form>
+					<v-alert 
+						v-if="errorMessage"
+						border="right"
+						colored-border
+						type="error"
+						elevation="0"
+						>
+						{{errorMessage}}
+					</v-alert>
+					<v-text-field
+						v-model="name"
+						label="Name"
+						required
+						@focus="errorMessage=''"
+					></v-text-field>
+					<v-text-field
+						v-model="password"
+						label="Passwort"
+						type="password"
+						required
+						@keypress.enter="login"
+					></v-text-field>
+					<v-card-actions>
+						<v-btn 
+							block
+							:disabled="disabled"
+							@click="login"
+							color="primary"
+							class="mt-4">
+							Anmelden
+						</v-btn>
+					</v-card-actions>
+				</v-form>
+			</v-list-item-content>
+		</v-list-item>
+	</v-card>
 </template>
 
 <script>
@@ -21,8 +54,14 @@ export default {
       name: '',
       password: '',
       error: false,
+      errorMessage: ''
     }
   },
+  computed: {
+    disabled() {
+			return this.name.length == 0 || this.password.length < 4
+		},
+	},
   methods: {
     async login() {
       this.$store.commit('toggleLoading')
@@ -33,6 +72,7 @@ export default {
         this.$router.replace('/')
       } else {
         this.error = true,
+        this.errorMessage = 'Benutzername oder Passwort falsch'
         this.name = '',
         this.password = ''
       }
@@ -41,16 +81,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.login-form {
-  display: block;
-  width: 80%;
-  margin: auto;
-}
-.error {
-  color: #c62828;
-  margin: 15px auto;
-  font-size: 12px;
-}
-</style>

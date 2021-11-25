@@ -1,29 +1,17 @@
 <template>
-  <Navigation v-if="this.$store.getters.isAuthenticated"/>
-  <router-view/>
+  <v-app>
+    <v-main>
+      <TopNav/>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import Navigation from '@/components/Navigation'
+import TopNav from '@/components/TopNav'
 export default {
   components: {
-    Navigation
+    TopNav
     }
 }
 </script>
-<style>
-.bg-main {
-  background: #90a4ae;
-}
-body {
-  background: #2c3e50;
-}
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  max-width: 90%;
-  margin: 0px auto;
-}
-</style>

@@ -5,20 +5,10 @@
       <router-link :to="{ name: 'NewEvent' }">Neues Event</router-link>
     </nav>
     <nav class="logout-nav navigation-links">
-      <a href="#" @click="logout">Abmelden</a>
+      <a href="#" @click="this.$store.dispatch('logout')">Abmelden</a>
     </nav>
   </div>
 </template>
-
-<script>
-export default {
-  methods: {
-    logout() {
-      this.$store.dispatch('logout')
-    }
-  }
-}
-</script>
 
 <style scoped>
 .nav {

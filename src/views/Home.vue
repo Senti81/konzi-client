@@ -1,23 +1,18 @@
 <template>
-  <div class="home">
+  <v-main>
     <EventTable/>
-  </div>
+  </v-main>
 </template>
 
 <script>
 import EventTable from '@/components/EventTable'
+import TopNav from '@/components/TopNav'
 
 export default {
   name: 'Home',
   components: {
-    EventTable
+    EventTable,
+    TopNav
   } 
 }
 </script>
-
-<style>
-.pagination {
-  display: flex;
-  margin: 20px 10px;
-}
-</style>

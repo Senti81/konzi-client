@@ -1,5 +1,4 @@
-<template>
-  <form @submit.prevent="submit">
+  <!-- <form @submit.prevent="submit">
     <label><small class="required">*</small>Datum</label>
     <input type="date" required v-model="datum">
     <label><small class="required">*</small>Band</label>
@@ -18,7 +17,65 @@
       <p>*Pflichtfelder</p>
       <button>Eintragen</button>
     </div>
-  </form>
+  </form> -->
+
+<template>
+<v-card 
+  dark 
+  tile
+  height="100vh" 
+  class="pt-16">
+
+  <v-form>
+    <v-text-field
+      type="date"
+      class="mx-10"
+      v-model="datum"
+      label="Datum"
+      :rules="[v => !!v || 'Datum is required']"
+      required
+    ></v-text-field>
+
+    <v-text-field
+      class="mx-10"
+      v-model="band"
+      label="Band"
+      :rules="[v => !!v || 'Band is required']"
+      required
+    ></v-text-field>
+
+    <v-text-field
+      class="mx-10"
+      v-model="stadt"
+      label="Stadt"      
+    ></v-text-field>
+
+    <v-text-field
+      class="mx-10"
+      v-model="location"
+      label="Location"      
+    ></v-text-field>
+
+    <v-select      
+      class="mx-10"  
+      v-model="typ"
+      :items="items"
+      :rules="[v => !!v || 'Typ is required']"
+      label="Typ"
+      required
+    ></v-select>
+
+    <div class="text-center">  
+      <v-btn      
+        color="success"
+        :disabled="disabled"
+        @click="submit"
+      >
+        Add
+      </v-btn>
+    </div>
+  </v-form>
+  </v-card>
 </template>
 
 <script>
@@ -31,11 +88,17 @@ export default {
       stadt: '',
       location: '',
       typ: '',
+      items: ['Konzert', 'Festival'],
       authHeader: { 
         headers: { 'Authorization': 'Bearer ' + this.$store.getters.getToken }
       }
     }
   },
+  computed: {
+    disabled() {
+			return this.datum.length == 0 || this.band.length == 0 || !this.typ
+		},
+	},
   methods: {
     async submit() {
       const payload = {
@@ -47,7 +110,6 @@ export default {
         payload.stadt = this.stadt
       if (this.location)
         payload.location = this.location
-
       await axios.post(process.env.VUE_APP_BASEURL + '/events/', payload, this.authHeader)
       this.$router.push('/')
     }
@@ -55,66 +117,3 @@ export default {
 
 }
 </script>
-
-<style>
-form {
-  background: #90a4ae;
-  padding: 20px;
-  border-radius: 10px;
-}
-label {
-  display: block;
-  color: #263238;
-  text-transform: uppercase;
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  margin: 20px 0 5px 0;
-}
-input {
-  background: #90a4ae;
-  padding: 5px;
-  border: 0;
-  border-bottom: 1px solid black;
-  width: 100%;
-  box-sizing: border-box
-}
-select {
-  padding: 5px;
-  background: #90a4ae;
-  border: 0;
-  border-bottom: 1px solid black;
-  width: 100%;
-}
-input:hover {
-  border-bottom: 2px solid black;
-}
-form button {
-  display: block;
-  margin: 20px auto 0;
-  background: #00ce89;
-  color: black;
-  cursor: pointer;
-  padding: 10px;
-  border: 0;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-}
-form button:hover {
-  background: #00dd89;
-}
-.required {
-  color: red;
-  font-size: 14px;
-}
-p {
-  padding-top: 20px;
-  color: black;
-  text-transform: uppercase;
-  font-size: 10px;
-  letter-spacing: 1px;
-}
-</style>

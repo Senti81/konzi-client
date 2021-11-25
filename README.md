@@ -1,4 +1,4 @@
-# konzi-client
+# konzi-client-vue2
 
 ## Project setup
 ```

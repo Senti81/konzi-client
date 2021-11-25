@@ -13,11 +13,7 @@
 <script>
 import axios from 'axios'
 export default {
-  props: {
-    skip: Number,
-    allEventsCount: Number,
-    eventCount: Number
-  },
+  props: [ 'skip', 'allEventsCount', 'eventCount'],
   data() {
     return {   
       url: process.env.VUE_APP_BASEURL + '/events/?limit=10',
@@ -34,13 +30,13 @@ export default {
   methods: {
     async foward() {
       this.$store.commit('toggleLoading')
-      const result = await axios.get(this.url + '&skip=' + parseInt(this.skip + 10), this.headers)
+      const result = await axios.get(this.url + '&skip=' + (this.skip + 10), this.headers)
       this.$emit('nextEvents', result.data)
       this.$store.commit('toggleLoading')
     },
     async back() {
       this.$store.commit('toggleLoading')
-      const result = await axios.get(this.url + '&skip=' + parseInt(this.skip - 10), this.headers)
+      const result = await axios.get(this.url + '&skip=' + (this.skip - 10), this.headers)
       this.$emit('previousEvents', result.data)
       this.$store.commit('toggleLoading')
     },

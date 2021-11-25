@@ -1,72 +1,98 @@
 <template>
-  <Loading v-if="this.$store.getters.isLoading"/>
-  <div v-else>
-    <div class="list-group">
-      <div v-for="event in events" :key="event._id">
-        <EventTableRow :event="event"/>
-      </div>    
-      <Pagination
-        @next-events="nextEvents"
-        @previous-events="previousEvents"
-        :skip="skip"
-        :allEventsCount="allEventsCount"
-        :eventCount="events.length"
-      />  
-    </div>
-  </div>
+  <v-card dark tile class="mt-6" height="95vh">
+    <v-card-title>
+      <v-text-field        
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Suche nach Band oder Datum..."
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table      
+      dense    
+      :headers="headers"
+      :items="events"
+      :search="search"
+      :page.sync="page"
+      :items-per-page="itemsPerPage"
+      :loading="this.$store.getters.isLoading"
+      :expanded.sync="expanded"
+      item-key="_id"
+      loading-text="Loading... Please wait"
+      hide-default-footer
+      class="elevation-1"
+      show-expand
+      single-expand
+      @page-count="pageCount = $event"
+      mobile-breakpoint="350"
+    >
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          <EventDetails
+            :item="item"
+          />
+        </td>
+      </template>
+    </v-data-table>
+    <v-bottom-navigation
+      fixed
+      :value="value"
+      color="primary"    
+    >
+      <v-pagination
+        class="text-center ma-auto"
+        v-model="page"
+        :length="pageCount"
+        :total-visible="7"
+      ></v-pagination>
+    </v-bottom-navigation>
+  </v-card>
 </template>
 
 <script>
-import EventTableRow from './EventTableRow'
 import Loading from '@/components/Loading'
-import Pagination from '@/components/Pagination'
+import EventDetails from '@/components/EventDetails'
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
   components: {
-    EventTableRow,
     Loading,
-    Pagination 
+    EventDetails
   },
   data() {
     return {
-      skip: 0,
+      search: '',
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 12,
+      value: 0,
+      headers: [
+          { text: 'Band', value: 'band', align: 'start' },
+          { text: 'Datum', value: 'datum', align: 'end'},
+          { text: '', value: 'data-table-expand' },
+        ],        
       events: [],
-      allEventsCount: 0,
+      expanded: [],
       url: process.env.VUE_APP_BASEURL,
-      headers: this.$store.getters.getHeader
-    }
-  },
-  methods: {
-    nextEvents(value) {
-      this.events = value
-      this.skip +=10
-    },
-    previousEvents(value) {
-      this.events = value
-      this.skip -=10
-    },
-    deleteEvent(e) {
-      const index = this.events.indexOf(e)
-      this.events.splice(index, 1)
+      header: this.$store.getters.getHeader
     }
   },
   mounted() {
     this.$store.commit('toggleLoading')
-    axios.get(this.url + '/events/?limit=10', this.headers)
+    axios.get(this.url + '/events', this.header)
       .then((res) => {
+        res.data.forEach(element => {
+          element.datum = moment(element.datum).format('DD.MM.YYYY')
+        });
         this.events = res.data
         this.$store.commit('toggleLoading')
       })
-      .catch((e) => {
+      .catch(() => {
         this.$store.dispatch('logout')
         this.$router.push('/')
       })
-
-    axios.get(this.url + '/events?count=1', this.headers)
-    .then((result) => {
-      this.allEventsCount =  result.data.count
-    })
   }
 }
 </script>

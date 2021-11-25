@@ -1,4 +1,5 @@
 <template>
+<div>
   <form @submit.prevent="submit">
     <div class="spinner" v-if="isLoading"></div>
     <label><small class="required">*</small>Datum</label>
@@ -18,13 +19,10 @@
     <button class="update-event">Speichern</button>
   </form>
   <div class="actions">
-    <div class="alert alert-primary" role="alert">
-      <a class="btn btn-outline-primary" :href="getSetlistLink(this.band, this.stadt, this.location, this.datum)" target="blank">Setlist bei setlist.fm suchen</a>
-    </div>
-    <div class="alert alert-danger" role="alert">
-      <button class="btn btn-outline-danger" @click="deleteEvent">Event löschen</button>
-    </div>
+    <a class="btn btn-primary" :href="getSetlistLink(this.band, this.stadt, this.location, this.datum)" target="blank">Setlist bei setlist.fm suchen</a>
+    <button class="btn btn-danger" @click="deleteEvent">Event löschen</button>
   </div>
+</div>
 </template>
 
 <script>
@@ -79,21 +77,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.actions {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-}
-.danger-zone {
-  display: flex;
-}
-.update-event {
-  color: black;
-  background-color: gold;
-}
-.update-event:hover {
-  background-color: rgb(201, 125, 26);
-}
-</style>
