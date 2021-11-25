@@ -1,6 +1,6 @@
 module.exports = {
   pwa: {
-    name: 'Haushalt App',
+    name: 'Konzi DB',
   },
   transpileDependencies: [
     'vuetify'
